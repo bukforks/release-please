@@ -171,6 +171,7 @@ interface TagIteratorOptions {
 export interface ReleaseOptions {
   draft?: boolean;
   prerelease?: boolean;
+  make_latest?: "true" | "false" | "legacy";
 }
 
 export interface GitHubRelease {
@@ -1390,6 +1391,7 @@ export class GitHub {
         draft: !!options.draft,
         prerelease: !!options.prerelease,
         target_commitish: release.sha,
+        make_latest: options.make_latest,
       });
       return {
         id: resp.data.id,

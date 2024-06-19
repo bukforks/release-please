@@ -122,6 +122,7 @@ export interface ReleaserConfig {
   extraLabels?: string[];
   initialVersion?: string;
   signoff?: string;
+  makeLatest?: 'true' | 'false' | 'legacy';
 
   // Changelog options
   changelogSections?: ChangelogSection[];
@@ -150,6 +151,7 @@ export interface CandidateRelease extends Release {
   path: string;
   draft?: boolean;
   prerelease?: boolean;
+  make_latest?: "true" | "false" | "legacy";
 }
 
 interface ReleaserConfigJson {
@@ -1158,6 +1160,7 @@ export class Manifest {
               config.prerelease &&
               (!!release.tag.version.preRelease ||
                 release.tag.version.major === 0),
+            make_latest: config.makeLatest,
           });
         }
       }
@@ -1280,6 +1283,7 @@ export class Manifest {
     const githubRelease = await this.github.createRelease(release, {
       draft: release.draft,
       prerelease: release.prerelease,
+      make_latest: release.make_latest,
     });
 
     return {
